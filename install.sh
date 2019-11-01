@@ -6,7 +6,7 @@
 # Web: https://raptoreum.com
 #
 # Program:
-#   Install yiimp on Ubuntu 18.x running Nginx, MariaDB, and php7.x
+#   Install yiimp (GhostRider) on Ubuntu 18.x running Nginx, MariaDB, and php7.x
 # 
 # 
 ################################################################################
@@ -758,7 +758,7 @@ define('"'"'EXCH_YOBIT_SECRET'"'"', '"'"''"'"');
     sleep 3
     
     cd ~
-    cd yiimp/sql
+    cd gr_pool/sql
     
     # import sql dump
     sudo zcat 2016-04-03-yaamp.sql.gz | sudo mysql --defaults-group-suffix=host1

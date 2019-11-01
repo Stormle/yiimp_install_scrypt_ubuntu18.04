@@ -2,11 +2,11 @@
 ################################################################################
 # Original Author:   crombiecrunch
 # Fork Author: manfromafar
-# Current Author: Xavatar
-# Web:     
+# Current Author: Charlie
+# Web: https://raptoreum.com
 #
 # Program:
-#   Install yiimp on Ubuntu 17.10 running Nginx, MariaDB, and php7.1.x
+#   Install yiimp on Ubuntu 18.x running Nginx, MariaDB, and php7.x
 # 
 # 
 ################################################################################
@@ -183,59 +183,6 @@ default         0;
     sudo ufw allow http
     sudo ufw allow https
 	sudo ufw allow 3333/tcp
-	sudo ufw allow 3339/tcp
-	sudo ufw allow 3334/tcp
-	sudo ufw allow 3433/tcp
-	sudo ufw allow 3555/tcp
-	sudo ufw allow 3556/tcp
-	sudo ufw allow 3573/tcp
-	sudo ufw allow 3535/tcp
-	sudo ufw allow 3533/tcp
-	sudo ufw allow 3553/tcp
-	sudo ufw allow 3633/tcp
-	sudo ufw allow 3733/tcp
-	sudo ufw allow 3636/tcp
-	sudo ufw allow 3737/tcp
-	sudo ufw allow 3739/tcp
-	sudo ufw allow 3747/tcp
-	sudo ufw allow 3833/tcp
-	sudo ufw allow 3933/tcp
-	sudo ufw allow 4033/tcp
-	sudo ufw allow 4133/tcp
-	sudo ufw allow 4233/tcp
-	sudo ufw allow 4234/tcp
-	sudo ufw allow 4333/tcp
-	sudo ufw allow 4433/tcp
-	sudo ufw allow 4533/tcp
-	sudo ufw allow 4553/tcp
-	sudo ufw allow 4633/tcp
-	sudo ufw allow 4733/tcp
-	sudo ufw allow 4833/tcp
-	sudo ufw allow 4933/tcp
-	sudo ufw allow 5033/tcp
-	sudo ufw allow 5133/tcp
-	sudo ufw allow 5233/tcp
-	sudo ufw allow 5333/tcp
-	sudo ufw allow 5433/tcp
-	sudo ufw allow 5533/tcp
-	sudo ufw allow 5733/tcp
-	sudo ufw allow 5743/tcp
-	sudo ufw allow 3252/tcp
-	sudo ufw allow 5755/tcp
-	sudo ufw allow 5766/tcp
-	sudo ufw allow 5833/tcp
-	sudo ufw allow 5933/tcp
-	sudo ufw allow 6033/tcp
-	sudo ufw allow 5034/tcp
-	sudo ufw allow 6133/tcp
-	sudo ufw allow 6233/tcp
-	sudo ufw allow 6333/tcp
-	sudo ufw allow 6433/tcp
-	sudo ufw allow 7433/tcp
-	sudo ufw allow 8333/tcp
-	sudo ufw allow 8463/tcp
-	sudo ufw allow 8433/tcp
-	sudo ufw allow 8533/tcp
     sudo ufw --force enable    
     fi
     
@@ -255,7 +202,7 @@ default         0;
     output " "
     output " Installing yiimp"
     output " "
-    output "Grabbing yiimp fron Github, building files and setting file structure."
+    output "Grabbing GhostRider based Yiimp from Github, building files and setting file structure."
     output " "
     sleep 3
     
@@ -263,34 +210,34 @@ default         0;
     #Generating Random Password for stratum
     blckntifypass=`cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1`
     cd ~
-    git clone https://github.com/tpruvot/yiimp.git
-    cd $HOME/yiimp/blocknotify
+    git clone https://github.com/npq7721/gr_pool.git
+    cd $HOME/gr_pool/blocknotify
     sudo sed -i 's/tu8tu5/'$blckntifypass'/' blocknotify.cpp
     sudo make
-    cd $HOME/yiimp/stratum/iniparser
+    cd $HOME/gr_pool/stratum/iniparser
     sudo make
-    cd $HOME/yiimp/stratum
+    cd $HOME/gr_pool/stratum
     if [[ ("$BTC" == "y" || "$BTC" == "Y") ]]; then
-    sudo sed -i 's/CFLAGS += -DNO_EXCHANGE/#CFLAGS += -DNO_EXCHANGE/' $HOME/yiimp/stratum/Makefile
+    sudo sed -i 's/CFLAGS += -DNO_EXCHANGE/#CFLAGS += -DNO_EXCHANGE/' $HOME/gr_pool/stratum/Makefile
     sudo make
     fi
     sudo make
-    cd $HOME/yiimp
-    sudo sed -i 's/AdminRights/'$admin_panel'/' $HOME/yiimp/web/yaamp/modules/site/SiteController.php
-    sudo cp -r $HOME/yiimp/web /var/
+    cd $HOME/gr_pool
+    sudo sed -i 's/AdminRights/'$admin_panel'/' $HOME/gr_pool/web/yaamp/modules/site/SiteController.php
+    sudo cp -r $HOME/gr_pool/web /var/
     sudo mkdir -p /var/stratum
-    cd $HOME/yiimp/stratum
+    cd $HOME/gr_pool/stratum
     sudo cp -a config.sample/. /var/stratum/config
     sudo cp -r stratum /var/stratum
     sudo cp -r run.sh /var/stratum
-    cd $HOME/yiimp
-    sudo cp -r $HOME/yiimp/bin/. /bin/
-    sudo cp -r $HOME/yiimp/blocknotify/blocknotify /usr/bin/
-    sudo cp -r $HOME/yiimp/blocknotify/blocknotify /var/stratum/
-    sudo mkdir -p /etc/yiimp
+    cd $HOME/gr_pool
+    sudo cp -r $HOME/gr_pool/bin/. /bin/
+    sudo cp -r $HOME/gr_pool/blocknotify/blocknotify /usr/bin/
+    sudo cp -r $HOME/gr_pool/blocknotify/blocknotify /var/stratum/
+    sudo mkdir -p /etc/gr_pool
     sudo mkdir -p /$HOME/backup/
     #fixing yiimp
-    sed -i "s|ROOTDIR=/data/yiimp|ROOTDIR=/var|g" /bin/yiimp
+    sed -i "s|ROOTDIR=/data/gr_pool|ROOTDIR=/var|g" /bin/gr_pool
     #fixing run.sh
     sudo rm -r /var/stratum/config/run.sh
 	echo '
@@ -782,7 +729,7 @@ password='"${rootpasswd}"'
 #Create keys file
   echo '  
     <?php
-/* Sample config file to put in /etc/yiimp/keys.php */
+/* Sample config file to put in /etc/gr_pool/keys.php */
 define('"'"'YIIMP_MYSQLDUMP_USER'"'"', '"'"'panel'"'"');
 define('"'"'YIIMP_MYSQLDUMP_PASS'"'"', '"'"''"${password}"''"'"');
 /* Keys required to create/cancel orders and access your balances/deposit addresses */
@@ -800,7 +747,7 @@ define('"'"'EXCH_LIVECOIN_SECRET'"'"', '"'"''"'"');
 define('"'"'EXCH_NOVA_SECRET'"'"','"'"''"'"');
 define('"'"'EXCH_POLONIEX_SECRET'"'"', '"'"''"'"');
 define('"'"'EXCH_YOBIT_SECRET'"'"', '"'"''"'"');
-' | sudo -E tee /etc/yiimp/keys.php >/dev/null 2>&1
+' | sudo -E tee /etc/gr_pool/keys.php >/dev/null 2>&1
  
  
     output " "
@@ -951,7 +898,7 @@ sudo chmod -R 775 /var/web/yaamp/runtime
 sudo chmod -R 664 /root/backup/
 sudo chmod -R 644 /var/log/debug.log
 sudo chmod -R 775 /var/web/serverconfig.php
-sudo mv $HOME/yiimp/ $HOME/yiimp-install-only-do-not-run-commands-from-this-folder
+sudo mv $HOME/gr_pool/ $HOME/gr_pool-install-only-do-not-run-commands-from-this-folder
 sudo systemctl restart nginx.service
 sudo systemctl reload php7.2-fpm.service
 

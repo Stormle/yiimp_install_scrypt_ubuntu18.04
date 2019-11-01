@@ -183,6 +183,7 @@ default         0;
     sudo ufw allow http
     sudo ufw allow https
 	sudo ufw allow 3333/tcp
+	sudo ufw allow 9767/tcp
     sudo ufw --force enable    
     fi
     
